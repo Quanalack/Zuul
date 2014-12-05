@@ -1,26 +1,10 @@
 import java.util.*;
-/**
- *  This class is the main class of the "World of Zuul" application. 
- *  "World of Zuul" is a very simple, text based adventure game.  Users 
- *  can walk around some scenery. That's all. It should really be extended 
- *  to make it more interesting!
- * 
- *  To play this game, create an instance of this class and call the "play"
- *  method.
- * 
- *  This main class creates and initialises all the others: it creates all
- *  rooms, creates the parser and starts the game.  It also evaluates and
- *  executes the commands that the parser returns.
- * 
- * @author  Michael Kölling and David J. Barnes
- * @version 2011.07.31
- */
 
 public class Game 
 {
     private Parser parser;
     private Room currentRoom;
-    private Stack roomHistory;    
+    private Stack<Room> roomHistory;    
     private Room previousRoom;
     /**
      * Create the game and initialise its internal map.
@@ -184,8 +168,7 @@ public class Game
      * whether we really quit the game.
      * @return true, if this command quits the game, false otherwise.
      */
-    private boolean quit(Command command) 
-    {
+    private boolean quit(Command command)     {
         if(command.hasSecondWord()) {
             System.out.println("Quit what?");
             return false;
@@ -206,12 +189,13 @@ public class Game
     /** de speler gaat terug naar de vorige kamer 
      * geeft een foutmelding wanneer je "back back" invoert 
      */
-    public void goBack()
+    private void goBack()
     { 
-        if (roomHistory.peek() != null){
-            currentRoom = (Room) roomHistory.pop();
-            
-               System.out.println(currentRoom.getLongDescription());
-            }
-    }   
+        if (roomHistory.empty())
+        {   System.out.println("U kunt niet verder terug dan uw beginpunt.");
+        } else {
+            currentRoom = roomHistory.pop();
+            System.out.println(currentRoom.getLongDescription());
+        }
+    }
 }
